@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 int CO_index_fill(char * const data, const OD_index_t idx, const OD_subindex_t subidx) {
     
-    if(!data) return 1;
+    if(!data) return CO_ERROR_NULL_PTR;
     
     OD_index_t idx_le=0;
     
@@ -14,6 +14,6 @@ int CO_index_fill(char * const data, const OD_index_t idx, const OD_subindex_t s
     data[1]=idx_le&0xFF;
     data[2]=subidx;
     
-    return 0;
+    return CO_ERROR_NONE;
 }
 

@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 int CO_index_extract(const char* const data, OD_index_t* idx, OD_subindex_t* subidx) {
     
-    if(!data || !idx || !subidx) return 1;
+    if(!data || !idx || !subidx) return CO_ERROR_NULL_PTR;
     
     OD_index_t idx_le=0;
     
@@ -14,6 +14,6 @@ int CO_index_extract(const char* const data, OD_index_t* idx, OD_subindex_t* sub
     (*idx)=ntohs(idx_le);
     (*subidx) = data[2];    
     
-    return 0;
+    return CO_ERROR_NONE;
 }
 

@@ -7,7 +7,7 @@
 typedef uint16_t OD_index_t;
 typedef uint8_t OD_subindex_t;
 
-typedef enum{
+typedef enum {
     CO_SDO_ABRT_NONE                  = 0x00000000UL, /**< 0x00000000, No abort */
     CO_SDO_ABRT_TOGGLE_BIT            = 0x05030000UL, /**< 0x05030000, Toggle bit not altered */
     CO_SDO_ABRT_TIMEOUT               = 0x05040000UL, /**< 0x05040000, SDO protocol timed out */
@@ -41,5 +41,13 @@ typedef enum{
     CO_SDO_ABRT_DATA_OD               = 0x08000023UL, /**< 0x08000023, Object dictionary not present or dynamic generation fails */
     CO_SDO_ABRT_NO_DATA               = 0x08000024UL  /**< 0x08000024, No data available */
 } CO_SDO_AbortCode_t;
+
+typedef enum {
+    CO_ERROR_NONE           = 0 , /**< No error. */
+    CO_ERROR_NULL_PTR           , /**< NULL pointer arguments. */
+    CO_ERROR_BAD_IDX            , /**< Bad Object Directory index. */
+    CO_ERROR_BAD_ARGS           , /**< Bad argument(s) (unique or combined values). */
+    CO_ERROR_UNIMPLEMENTED     = 255 /**< Not implemented feature or sub parts. */
+} CO_ErrorCode_t;
 
 #endif // __CO_SDO_H__

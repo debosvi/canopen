@@ -1,18 +1,13 @@
 
 #include "private/CO_SDO_p.h"
 
-#define ERROR_BAD_BUF           (1)
-#define ERROR_ARGS              (2)
-#define ERROR_BAD_IDX           (3)
-#define ERROR_UNIMPLEMENTED     (4)
-
 ///////////////////////////////////////////////////////////////////////////////
 int CO_SDO_build_init_dl_rq(char *const buf, const bool e, const bool s, 
         const OD_index_t idx, const OD_subindex_t subidx, const uint32_t lg) {
     
-    if(!buf) return ERROR_BAD_BUF;
-    if(s && !lg) return ERROR_ARGS;
-    if(!s && lg) return ERROR_ARGS;
+    if(!buf) return CO_ERROR_NULL_PTR;
+    if(s && !lg) return CO_ERROR_BAD_ARGS;
+    if(!s && lg) return CO_ERROR_BAD_ARGS;
     
     buf[0] = CO_SDO_CMD_CCS_INIT_DL_RQ;
     if(e)
@@ -26,7 +21,7 @@ int CO_SDO_build_init_dl_rq(char *const buf, const bool e, const bool s,
         buf[0] &= ~CO_SDO_CMD_SZ_INDIC_MASK;
     
     if(CO_index_fill(&buf[1], idx, subidx))
-        return ERROR_BAD_IDX;
+        return CO_ERROR_BAD_IDX;
         
     if(e && s) {
         uint8_t n=0;
@@ -48,8 +43,8 @@ int CO_SDO_build_init_dl_rq(char *const buf, const bool e, const bool s,
             l = l>>8;
         }
     }
-    else return ERROR_UNIMPLEMENTED;
+    else return CO_ERROR_UNIMPLEMENTED;
     
-    return 0;
+    return CO_ERROR_NONE;
 }
 

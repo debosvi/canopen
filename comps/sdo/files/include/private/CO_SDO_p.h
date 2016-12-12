@@ -84,6 +84,7 @@ int CO_index_fill(char * const data, const OD_index_t idx, const OD_subindex_t s
 int CO_index_extract(const char* const data, OD_index_t* idx, OD_subindex_t* subidx);
 
 int CO_SDO_build_init_dl_rq(char *const buf, const bool t, const bool s, const OD_index_t idx, const OD_subindex_t subidx, const uint32_t lg);
+int CO_SDO_build_init_dl_rp(char *const buf, const OD_index_t idx, const OD_subindex_t subidx);
 
 
 #endif // __CO_SDO_PRIVATE_H__
