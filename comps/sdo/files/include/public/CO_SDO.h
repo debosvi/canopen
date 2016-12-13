@@ -50,6 +50,7 @@ typedef enum {
     CO_ERROR_NULL_PTR           , /**< NULL pointer arguments. */
     CO_ERROR_BAD_IDX            , /**< Bad Object Directory index. */
     CO_ERROR_BAD_ARGS           , /**< Bad argument(s) (unique or combined values). */
+    CO_ERROR_DATA_OVERFLOW      , /**< Data length exceeds limit. */
     CO_ERROR_UNIMPLEMENTED     = 255 /**< Not implemented feature or sub parts. */
 } CO_ErrorCode_t;
 

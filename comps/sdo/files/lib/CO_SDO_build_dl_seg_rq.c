@@ -5,11 +5,13 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 int CO_SDO_build_dl_seg_rq(unsigned char *const buf, const bool last, const bool toggle,
-        const char* const data, const uint8_t lg) {
+        const unsigned char* const data, const uint8_t lg) {
     
     
     if(!buf) return CO_ERROR_NULL_PTR;
-    if(lg>MAX_SEGMENT_DATA) return CO_ERROR_BAD_ARGS;
+    if(lg>MAX_SEGMENT_DATA) return CO_ERROR_DATA_OVERFLOW;
+    if(!data && lg) return CO_ERROR_BAD_ARGS;
+    if(data && !lg) return CO_ERROR_BAD_ARGS;
     
     // reset whole buffer 
     CO_RESET_WHOLE_BUFFER(buf);
@@ -37,8 +39,9 @@ int CO_SDO_build_dl_seg_rq(unsigned char *const buf, const bool last, const bool
         buf[0] |= n;
     }
     
-    // copy amout of data
-    memcpy(&buf[1], data, lg);
+    // copy amout of data if so
+    if(data && lg)
+        memcpy(&buf[1], data, lg);
     
     return CO_ERROR_NONE;
 }
