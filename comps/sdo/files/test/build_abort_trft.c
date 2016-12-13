@@ -3,6 +3,8 @@
 #include <private/CO_SDO_p.h>
 
 static unsigned char can_buff[CO_CAN_DATA_MAX];
+static OD_index_t idx=0x0123;
+static OD_subindex_t subidx=0xF2;
 
 static int compare_buffers(unsigned char* b1, unsigned char* b2) {
     int ret=0;
@@ -28,11 +30,11 @@ static void print_buffer(unsigned char* buf) {
     fprintf(stderr, "\n");
 }
 
-#define TEST_CASE(buf,last,toggle,data,lg,exp,comp)              \
-    ret=CO_SDO_build_dl_seg_rq(buf,last,toggle,data,lg); \
+#define TEST_CASE(buf,idx,subidx,code,exp,comp)              \
+    ret=CO_SDO_build_abort_transfert(buf,idx,subidx,code); \
     if(ret!=exp) {                                      \
         fprintf(stderr,                                 \
-            "%d: CO_SDO_build_dl_seg_rq failed, error(%d), expected(%d)\n",    \
+            "%d: CO_SDO_build_abort_transfert failed, error(%d), expected(%d)\n",    \
             __LINE__, ret, exp);                        \
         return 1;                                       \
     }                                                   \
@@ -52,26 +54,15 @@ static void print_buffer(unsigned char* buf) {
         }                                               \
     }                                                     
 
-static const unsigned char fill_data[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
-static const unsigned char compare_buf1[] = { 0x0E, 0, 0, 0, 0, 0, 0, 0 } ;
-static const unsigned char compare_buf2[] = { 0x00, 0, 1, 2, 3, 4, 5, 6 } ;
-static const unsigned char compare_buf3[] = { 0x07, 1, 2, 3, 4, 0, 0, 0 } ;
-static const unsigned char compare_buf4[] = { 0x14, 2, 3, 4, 5, 6, 0, 0 } ;
-static const unsigned char compare_buf5[] = { 0x1D, 3, 0, 0, 0, 0, 0, 0 } ;
+static const unsigned char compare_buf1[] = { 0x80, 0x23, 0x01, 0xF2, 0x06, 0x09, 0x00, 0x30 } ;
+static const unsigned char compare_buf2[] = { 0x80, 0x23, 0x01, 0xF2, 0x05, 0x04, 0x00, 0x05 } ;
     
 int main(void) {
     int ret=0;
         
-    TEST_CASE(0, 0, 0, 0, 0, CO_ERROR_NULL_PTR, 0)
-    TEST_CASE(can_buff, 0, 0, 0, 0, CO_ERROR_NONE, compare_buf1)
-    TEST_CASE(can_buff, 0, 0, fill_data, 10, CO_ERROR_DATA_OVERFLOW, 0)
-    TEST_CASE(can_buff, 0, 0, fill_data, 0, CO_ERROR_BAD_ARGS, 0)
-    TEST_CASE(can_buff, 0, 0, 0, 6, CO_ERROR_BAD_ARGS, 0)
-    TEST_CASE(can_buff, 0, 0, fill_data, 7, CO_ERROR_NONE, compare_buf2)
-    TEST_CASE(can_buff, 1, 0, fill_data+1, 4, CO_ERROR_NONE, compare_buf3)
-    TEST_CASE(can_buff, 0, 1, fill_data+2, 5, CO_ERROR_NONE, compare_buf4)
-    TEST_CASE(can_buff, 1, 1, fill_data+3, 1, CO_ERROR_NONE, compare_buf5)
+    TEST_CASE(0, 0, 0, 0, CO_ERROR_NULL_PTR, 0)
+    TEST_CASE(can_buff, idx, subidx, CO_SDO_ABRT_INVALID_VALUE, CO_ERROR_NONE, compare_buf1)
+    TEST_CASE(can_buff, idx, subidx, CO_SDO_ABRT_OUT_OF_MEM, CO_ERROR_NONE, compare_buf2)
     
     return 0;
 }

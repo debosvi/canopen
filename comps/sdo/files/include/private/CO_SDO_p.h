@@ -102,10 +102,15 @@ extern int CO_SDO_build_init_ul_rp(unsigned char* const buf,
 extern int CO_SDO_build_ul_seg_rq(unsigned char* const buf, 
     const bool toggle);
 
-/** Build a can frame buffer with command request 'Segment SDO Upload'. */
+/** Build a can frame buffer with command response 'Segment SDO Upload'. */
 extern int CO_SDO_build_ul_seg_rp(unsigned char* const buf, 
     const bool last, const bool toggle, 
     const unsigned char* const data, const uint8_t lg);
+    
+/** Build a can frame buffer with command 'Abort Transfert'. */
+extern int CO_SDO_build_abort_transfert(unsigned char* const buf, 
+    const OD_index_t idx, const OD_subindex_t subidx, 
+    const uint32_t code);
 
 #endif // __CO_SDO_PRIVATE_H__
 
