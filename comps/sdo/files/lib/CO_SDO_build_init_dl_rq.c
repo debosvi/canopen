@@ -2,27 +2,40 @@
 #include "private/CO_SDO_p.h"
 
 ///////////////////////////////////////////////////////////////////////////////
-int CO_SDO_build_init_dl_rq(char *const buf, const bool e, const bool s, 
+int CO_SDO_build_init_dl_rq(unsigned char *const buf, const bool e, const bool s, 
         const OD_index_t idx, const OD_subindex_t subidx, const uint32_t lg) {
+    
+    int ret=CO_ERROR_NONE;
     
     if(!buf) return CO_ERROR_NULL_PTR;
     if(s && !lg) return CO_ERROR_BAD_ARGS;
     if(!s && lg) return CO_ERROR_BAD_ARGS;
     
+    // reset whole buffer 
+    CO_RESET_WHOLE_BUFFER(buf);
+    
+    // set command type
     buf[0] = CO_SDO_CMD_CCS_INIT_DL_RQ;
+
+    // set transfert type
     if(e)
         buf[0] |= CO_SDO_CMD_TRANSFERT_MASK;
     else 
         buf[0] &= ~CO_SDO_CMD_TRANSFERT_MASK;
 
+    // set size presence
     if(s) 
         buf[0] |= CO_SDO_CMD_SZ_INDIC_MASK;
     else 
         buf[0] &= ~CO_SDO_CMD_SZ_INDIC_MASK;
     
-    if(CO_index_fill(&buf[1], idx, subidx))
-        return CO_ERROR_BAD_IDX;
+    // fill indexes
+    if(CO_index_fill(&buf[1], idx, subidx)) {
+        ret=CO_ERROR_BAD_IDX;
+        goto exit;
+    }
         
+    // put data depending on arguments combination
     if(e && s) {
         uint8_t n=0;
         if((lg&0xFF)==lg) n=3;
@@ -43,8 +56,14 @@ int CO_SDO_build_init_dl_rq(char *const buf, const bool e, const bool s,
             l = l>>8;
         }
     }
-    else return CO_ERROR_UNIMPLEMENTED;
+    else {
+        return CO_ERROR_UNIMPLEMENTED;
+    }
     
-    return CO_ERROR_NONE;
+exit:
+    if(ret!=CO_ERROR_NONE) {
+        CO_RESET_WHOLE_BUFFER(buf);
+    }
+    return ret;
 }
 

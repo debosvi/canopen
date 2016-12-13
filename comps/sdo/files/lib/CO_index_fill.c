@@ -2,7 +2,7 @@
 #include "private/CO_SDO_p.h"
 
 ///////////////////////////////////////////////////////////////////////////////
-int CO_index_fill(char * const data, const OD_index_t idx, const OD_subindex_t subidx) {
+int CO_index_fill(unsigned char * const data, const OD_index_t idx, const OD_subindex_t subidx) {
     
     if(!data) return CO_ERROR_NULL_PTR;
     

@@ -2,7 +2,7 @@
 #include "private/CO_SDO_p.h"
 
 ///////////////////////////////////////////////////////////////////////////////
-int CO_index_extract(const char* const data, OD_index_t* idx, OD_subindex_t* subidx) {
+int CO_index_extract(const unsigned char* const data, OD_index_t* idx, OD_subindex_t* subidx) {
     
     if(!data || !idx || !subidx) return CO_ERROR_NULL_PTR;
     
