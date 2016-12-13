@@ -79,12 +79,12 @@ extern int CO_SDO_build_init_dl_rq(unsigned char* const buf,
 extern int CO_SDO_build_init_dl_rp(unsigned char* const buf, 
     const OD_index_t idx, const OD_subindex_t subidx);
 
-/** Build a can frame buffer with command request 'Initiate SDO Download'. */
+/** Build a can frame buffer with command request 'Segment SDO Download'. */
 extern int CO_SDO_build_dl_seg_rq(unsigned char* const buf, 
     const bool last, const bool toggle, 
     const unsigned char* const data, const uint8_t lg);
 
-/** Build a can frame buffer with command response 'Initiate SDO Download'. */
+/** Build a can frame buffer with command response 'Segment SDO Download'. */
 extern int CO_SDO_build_dl_seg_rp(unsigned char* const buf, 
     const bool toggle);
 
@@ -97,6 +97,15 @@ extern int CO_SDO_build_init_ul_rp(unsigned char* const buf,
     const bool e, const bool s, 
     const OD_index_t idx, const OD_subindex_t subidx, 
     const uint32_t lg);
+
+/** Build a can frame buffer with command request 'Segment SDO Upload'. */
+extern int CO_SDO_build_ul_seg_rq(unsigned char* const buf, 
+    const bool toggle);
+
+/** Build a can frame buffer with command request 'Segment SDO Upload'. */
+extern int CO_SDO_build_ul_seg_rp(unsigned char* const buf, 
+    const bool last, const bool toggle, 
+    const unsigned char* const data, const uint8_t lg);
 
 #endif // __CO_SDO_PRIVATE_H__
 
