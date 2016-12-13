@@ -45,4 +45,3 @@ int CO_SDO_build_dl_seg_rq(unsigned char *const buf, const bool last, const bool
     
     return CO_ERROR_NONE;
 }
-

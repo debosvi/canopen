@@ -3,8 +3,8 @@
 #include <private/CO_SDO_p.h>
 
 static unsigned char can_buff[CO_CAN_DATA_MAX];
-static OD_index_t idx=0x1605;
-static OD_subindex_t subidx=7;
+static OD_index_t idx=0x0184;
+static OD_subindex_t subidx=0xA5;
 
 static int compare_buffers(unsigned char* b1, unsigned char* b2) {
     int ret=0;
@@ -31,10 +31,10 @@ static void print_buffer(unsigned char* buf) {
 }
 
 #define TEST_CASE(buf,idx,subidx,exp,comp)              \
-    ret=CO_SDO_build_init_dl_rp(buf,idx,subidx); \
+    ret=CO_SDO_build_init_ul_rq(buf,idx,subidx); \
     if(ret!=exp) {                                      \
         fprintf(stderr,                                 \
-            "%d: CO_SDO_build_init_dl_rp failed, error(%d), expected(%d)\n",    \
+            "%d: CO_SDO_build_init_ul_rq failed, error(%d), expected(%d)\n",    \
             __LINE__, ret, exp);                        \
         return 1;                                       \
     }                                                   \
@@ -52,10 +52,10 @@ static void print_buffer(unsigned char* buf) {
         else {                                          \
             fprintf(stderr, "%d: test OK\n", __LINE__); \
         }                                               \
-    }                                                     
+    }                                                  
+    
 
-static const unsigned char compare_buf1[] = { 0x60, 0x05, 0x16, 0x07, 0x00, 0x00, 0x00, 0x00 } ;
-
+static const unsigned char compare_buf1[] = { 0x40, 0x84, 0x01, 0xA5, 0, 0, 0, 0 } ;
     
 int main(void) {
     int ret=0;

@@ -2,21 +2,22 @@
 #include "private/CO_SDO_p.h"
 
 ///////////////////////////////////////////////////////////////////////////////
-int CO_SDO_build_init_dl_rq(unsigned char *const buf, 
+int CO_SDO_build_init_ul_rp(unsigned char* const buf, 
         const bool e, const bool s, 
-        const OD_index_t idx, const OD_subindex_t subidx, const uint32_t lg) {
+        const OD_index_t idx, const OD_subindex_t subidx, 
+        const uint32_t lg) {
     
     int ret=CO_ERROR_NONE;
     
     if(!buf) return CO_ERROR_NULL_PTR;
     if(s && !lg) return CO_ERROR_BAD_ARGS;
     if(!s && lg) return CO_ERROR_BAD_ARGS;
-    
+       
     // reset whole buffer 
     CO_RESET_WHOLE_BUFFER(buf);
     
     // set command type
-    buf[0] = CO_SDO_CMD_CCS_INIT_DL_RQ;
+    buf[0] = CO_SDO_CMD_SCS_INIT_UL_RP;
 
     // set transfert type
     if(e)
@@ -29,13 +30,13 @@ int CO_SDO_build_init_dl_rq(unsigned char *const buf,
         buf[0] |= CO_SDO_CMD_SZ_INDIC_MASK;
     else 
         buf[0] &= ~CO_SDO_CMD_SZ_INDIC_MASK;
-    
+
     // fill indexes
     if(CO_index_fill(&buf[1], idx, subidx)) {
         ret=CO_ERROR_BAD_IDX;
         goto exit;
     }
-        
+    
     // put data depending on arguments combination
     if(e && s) {
         uint8_t n=0;
@@ -60,7 +61,7 @@ int CO_SDO_build_init_dl_rq(unsigned char *const buf,
     else {
         return CO_ERROR_UNIMPLEMENTED;
     }
-    
+        
 exit:
     if(ret!=CO_ERROR_NONE) {
         CO_RESET_WHOLE_BUFFER(buf);

@@ -20,4 +20,3 @@ int CO_SDO_build_dl_seg_rp(unsigned char *const buf, const bool toggle) {
        
     return CO_ERROR_NONE;
 }
-

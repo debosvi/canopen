@@ -1,32 +1,19 @@
 
 ## generation profile name.
-## mandatory (generates library profile)
-set(COMP_SRC_PROFILE "library")
+## mandatory (generates application for testing profile)
+set(COMP_SRC_PROFILE "test")
 
-## COMP_SRC_LIB_TYPE var must be set to either 'static', 'shared' or 'both'.
+## COMP_SRC_TEST_NAME var must be set to binary name (it will be automatically prefixed with 'test_' in order to identify easly appart from oyhre binaries).
 ## mandatory
-set(COMP_SRC_LIB_TYPE "both")
-
-## COMP_SRC_LIB_NAME var must be set to library name (without prefix and extension).
-## mandatory
-set(COMP_SRC_LIB_NAME "co_sdo")
+set(COMP_SRC_TEST_NAME "sdo_build_init_ul_rq")
 
 ## LOCAL_SRC_DIR_SUFFIX is the relative path prefix to append to component files directory in order to find source files to compile.
 ## optional but recommended
-set(LOCAL_SRC_DIR_SUFFIX lib)
+set(LOCAL_SRC_DIR_SUFFIX test)
 
-## LOCAL_SRC_FILES is the list of files to compile (do not use any absolute path, automatic appending is performed by complete makefiles scheme.
+## LOCAL_SRC_FILES is the list of files to compile (do not use any absolute path, automatic appending is performed by complte makefiles scheme.
 ## mandatory
-set(LOCAL_SRC_FILES 
-    CO_index_fill.c
-    CO_index_extract.c
-    CO_SDO_build_init_dl_rq.c
-    CO_SDO_build_init_dl_rp.c    
-    CO_SDO_build_dl_seg_rq.c
-    CO_SDO_build_dl_seg_rp.c
-    CO_SDO_build_init_ul_rq.c
-    CO_SDO_build_init_ul_rp.c
-)
+set(LOCAL_SRC_FILES build_init_ul_rq.c)
 
 ## LOCAL_SRC_FILES_ADDED is the list of files to compile with absolute path (useful if generated files are somewhere).
 ## optional
@@ -40,7 +27,7 @@ set(LOCAL_SRC_FILES
 ## COMP_SRC_LIB_DEPS_STATIC is the list of static library dependencies (internal dependencies only).
 ## Be careful about system compatibility between static and shared libraries
 ## optional
-# set(COMP_SRC_LIB_DEPS_STATIC other_static_lib)
+set(COMP_SRC_LIB_DEPS_STATIC co_sdo)
 
 ## COMP_SRC_LIB_DEPS_SHARED is the list of shared library dependencies (internal dependencies only).
 ## Be careful about system compatibility between static and shared libraries.
@@ -50,7 +37,4 @@ set(LOCAL_SRC_FILES
 
 ## COMP_EXT_LIB_DEPS is the list of external library dependencies.
 ## optional
-if(${MINGW})
-set(COMP_EXT_LIB_DEPS Ws2_32)
-endif()
-
+# set(COMP_EXT_LIB_DEPS external_lib)

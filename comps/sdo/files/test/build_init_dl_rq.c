@@ -60,11 +60,12 @@ static const unsigned char compare_buf2[] = { 0x21, 0x03, 0x1a, 0x0d, 0x12, 0x00
 static const unsigned char compare_buf3[] = { 0x21, 0x03, 0x1a, 0x0d, 0x45, 0x23, 0x01, 0x00 } ;
 static const unsigned char compare_buf4[] = { 0x21, 0x03, 0x1a, 0x0d, 0x56, 0x34, 0x12, 0x00 } ;
 static const unsigned char compare_buf5[] = { 0x21, 0x03, 0x1a, 0x0d, 0x67, 0x45, 0x23, 0x01 } ;
+static const unsigned char compare_buf6[] = { 0x2F, 0x03, 0x1a, 0x0d, 0x01, 0x00, 0x00, 0x00 } ;
     
 int main(void) {
     int ret=0;
         
-    TEST_CASE(0,0,0,0,0,0,CO_ERROR_NULL_PTR, 0)
+    TEST_CASE(0, 0, 0, 0, 0, 0, CO_ERROR_NULL_PTR, 0)
     TEST_CASE(can_buff, 0, 1, idx, subidx, 0, CO_ERROR_BAD_ARGS, 0)
     TEST_CASE(can_buff, 0, 0, idx, subidx, 1024, CO_ERROR_BAD_ARGS, 0)
     TEST_CASE(can_buff, 0, 1, idx, subidx, 0x1234, CO_ERROR_NONE, compare_buf1)
@@ -72,6 +73,7 @@ int main(void) {
     TEST_CASE(can_buff, 0, 1, idx, subidx, 0x12345, CO_ERROR_NONE, compare_buf3)
     TEST_CASE(can_buff, 0, 1, idx, subidx, 0x123456, CO_ERROR_NONE, compare_buf4)
     TEST_CASE(can_buff, 0, 1, idx, subidx, 0x1234567, CO_ERROR_NONE, compare_buf5)
+    TEST_CASE(can_buff, 1, 1, idx, subidx, 0x01, CO_ERROR_NONE, compare_buf6)
     
     return 0;
 }

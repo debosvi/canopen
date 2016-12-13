@@ -63,22 +63,40 @@
 #define CO_SDO_CMD_SCS_INIT_BDL_RP   (0x05<<5)
 
 /** Fill buffer (at index 0) with Object Directory index and subindex. */
-int CO_index_fill(unsigned char * const data, const OD_index_t idx, const OD_subindex_t subidx);
+extern int CO_index_fill(unsigned char* const data, 
+    const OD_index_t idx, const OD_subindex_t subidx);
 
 /** Extract Object Directory index and subindex from buffer (at index 0). */
-int CO_index_extract(const unsigned char* const data, OD_index_t* idx, OD_subindex_t* subidx);
+extern int CO_index_extract(const unsigned char* const data, 
+    OD_index_t* idx, OD_subindex_t* subidx);
 
 /** Build a can frame buffer with command request 'Initiate SDO Download'. */
-int CO_SDO_build_init_dl_rq(unsigned char *const buf, const bool t, const bool s, const OD_index_t idx, const OD_subindex_t subidx, const uint32_t lg);
+extern int CO_SDO_build_init_dl_rq(unsigned char* const buf, 
+    const bool e, const bool s, 
+    const OD_index_t idx, const OD_subindex_t subidx, const uint32_t lg);
 
 /** Build a can frame buffer with command response 'Initiate SDO Download'. */
-int CO_SDO_build_init_dl_rp(unsigned char *const buf, const OD_index_t idx, const OD_subindex_t subidx);
+extern int CO_SDO_build_init_dl_rp(unsigned char* const buf, 
+    const OD_index_t idx, const OD_subindex_t subidx);
 
 /** Build a can frame buffer with command request 'Initiate SDO Download'. */
-int CO_SDO_build_dl_seg_rq(unsigned char *const buf, const bool last, const bool toggle, const unsigned char* const data, const uint8_t lg);
+extern int CO_SDO_build_dl_seg_rq(unsigned char* const buf, 
+    const bool last, const bool toggle, 
+    const unsigned char* const data, const uint8_t lg);
 
 /** Build a can frame buffer with command response 'Initiate SDO Download'. */
-int CO_SDO_build_dl_seg_rp(unsigned char *const buf, const bool toggle);
+extern int CO_SDO_build_dl_seg_rp(unsigned char* const buf, 
+    const bool toggle);
 
+/** Build a can frame buffer with command request 'Initiate SDO Upload'. */
+extern int CO_SDO_build_init_ul_rq(unsigned char* const buf, 
+    const OD_index_t idx, const OD_subindex_t subidx);
+
+/** Build a can frame buffer with command response 'Initiate SDO Upload'. */
+extern int CO_SDO_build_init_ul_rp(unsigned char* const buf, 
+    const bool e, const bool s, 
+    const OD_index_t idx, const OD_subindex_t subidx, 
+    const uint32_t lg);
 
 #endif // __CO_SDO_PRIVATE_H__
+
