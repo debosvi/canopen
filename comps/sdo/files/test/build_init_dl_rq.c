@@ -24,6 +24,7 @@ static int compare_buffers(unsigned char* b1, unsigned char* b2) {
 }
 
 static void print_buffer(unsigned char* buf) {
+    if(!buf) return;
     for(int i=0; i<CO_CAN_DATA_MAX; i++)
         fprintf(stderr, "%02x ", buf[i]);
     fprintf(stderr, "\n");
@@ -63,7 +64,7 @@ static const unsigned char compare_buf5[] = { 0x21, 0x03, 0x1a, 0x0d, 0x67, 0x45
 int main(void) {
     int ret=0;
         
-    // TEST_CASE(0,0,0,0,0,0,CO_ERROR_NULL_PTR)
+    TEST_CASE(0,0,0,0,0,0,CO_ERROR_NULL_PTR, 0)
     TEST_CASE(can_buff, 0, 1, idx, subidx, 0, CO_ERROR_BAD_ARGS, 0)
     TEST_CASE(can_buff, 0, 0, idx, subidx, 1024, CO_ERROR_BAD_ARGS, 0)
     TEST_CASE(can_buff, 0, 1, idx, subidx, 0x1234, CO_ERROR_NONE, compare_buf1)
