@@ -1,6 +1,6 @@
 All TODOs are: (both implementation and Uts)
 
-- SDO segment
+- SDO segment (done)
 - SDO block
 - SYNC
 - EMCY
