@@ -35,6 +35,9 @@ set(LOCAL_SRC_FILES
     CO_SDO_build_blk_dl_seg_rp.c
     CO_SDO_build_blk_dl_end_rq.c
     CO_SDO_build_blk_dl_end_rp.c
+    CO_SDO_build_init_blk_ul_rq.c
+    CO_SDO_build_init_blk_ul_rp.c
+    CO_SDO_build_start_blk_ul_rq.c
 )
 
 ## LOCAL_SRC_FILES_ADDED is the list of files to compile with absolute path (useful if generated files are somewhere).

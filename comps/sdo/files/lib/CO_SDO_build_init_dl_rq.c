@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 int CO_SDO_build_init_dl_rq(unsigned char *const buf, 
         const bool e, const bool s, 
-        const OD_index_t idx, const OD_subindex_t subidx, const uint32_t lg) {
+        const OD_index_t idx, const OD_subindex_t subidx, const CO_SDO_data_size_t lg) {
     
     int ret=CO_ERROR_NONE;
     
