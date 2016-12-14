@@ -18,6 +18,9 @@
 /** Macro to erase whole CAN buffer */
 #define CO_RESET_WHOLE_BUFFER(x)    memset(x, 0, CO_CAN_FRAME_DATA_MAX)
 
+/** Block segment mas size. */
+#define CO_SDO_CMD_BLK_SEG_MAXC_SIZE    (7)
+
 /** Size Indicator command mask (segments). */
 #define CO_SDO_CMD_SEG_SZ_IND_MASK  (0x01<<0)
 
@@ -39,8 +42,11 @@
 /** Last Segment command mask. */
 #define CO_SDO_CMD_BLK_MORE_MASK    (0x80)
 
-/** Last Segment command mask. */
+/** SDO Block Download last segment */
 #define CO_SDO_CMD_BLK_ACK_MASK     (0x02)
+
+/** SDO block Download end */
+#define CO_SDO_CMD_BLK_END_MASK     (0x01)
 
 /** Initiate Download command request from client. */
 #define CO_SDO_CMD_CCS_INIT_DL_RQ   (0x01<<5)
@@ -76,7 +82,13 @@
 #define CO_SDO_CMD_SCS_INIT_BDL_RP  (0x05<<5)
 
 /** Initiate Block Download command request from client. */
-#define CO_SDO_CMD_CCS_BDL_RP       (0x05<<5)
+#define CO_SDO_CMD_SCS_BDL_RP       ((0x05<<5)+CO_SDO_CMD_BLK_ACK_MASK)
+
+/** Initiate Block Download command request from client. */
+#define CO_SDO_CMD_CCS_BDL_END_RQ   ((0x06<<5)+CO_SDO_CMD_BLK_END_MASK)
+
+/** Initiate Block Download command request from client. */
+#define CO_SDO_CMD_SCS_BDL_END_RP   ((0x05<<5)+CO_SDO_CMD_BLK_END_MASK)
  
 /** Fill buffer (at index 0) with Object Directory index and subindex. */
 extern int CO_index_fill(unsigned char* const data, 
@@ -144,6 +156,13 @@ extern int CO_SDO_build_blk_dl_seg_rq(unsigned char* const buf, const bool more,
 /** Build a can frame buffer with command response 'SDO Download Block Segment'. */
 extern int CO_SDO_build_blk_dl_seg_rp(unsigned char* const buf, 
     const uint8_t seq, const uint8_t blk_sz);
+
+/** Build a can frame buffer with command request 'SDO Download Block End'. */
+extern int CO_SDO_build_blk_dl_end_rq(unsigned char* const buf, 
+    const uint8_t empty, const uint16_t crc);
+    
+/** Build a can frame buffer with command response 'SDO Download Block End'. */
+extern int CO_SDO_build_blk_dl_end_rp(unsigned char* const buf);
     
 #endif // __CO_SDO_PRIVATE_H__
 

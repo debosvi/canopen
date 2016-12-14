@@ -28,11 +28,11 @@ static void print_buffer(unsigned char* buf) {
     fprintf(stderr, "\n");
 }
 
-#define TEST_CASE(buf,more,seq,data,lg,exp,comp)            \
-    ret=CO_SDO_build_blk_dl_seg_rq(buf,more,seq,data,lg); \
+#define TEST_CASE(buf,exp,comp)            \
+    ret=CO_SDO_build_blk_dl_end_rp(buf); \
     if(ret!=exp) {                                      \
         fprintf(stderr,                                 \
-            "%d: CO_SDO_build_blk_dl_seg_rq failed, error(%d), expected(%d)\n",    \
+            "%d: CO_SDO_build_blk_dl_end_rp failed, error(%d), expected(%d)\n",    \
             __LINE__, ret, exp);                        \
         return 1;                                       \
     }                                                   \
@@ -52,28 +52,13 @@ static void print_buffer(unsigned char* buf) {
         }                                               \
     }                                                  
     
-static const unsigned char fill_data[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-static const unsigned char compare_buf1[] = { 0x5F, 0, 1, 2, 3, 4, 5, 6 } ;
-static const unsigned char compare_buf2[] = { 0x7E, 3, 4, 5, 6, 7, 0, 0 } ;
-static const unsigned char compare_buf3[] = { 0x92, 7, 8, 9, 0, 0, 0, 0 } ;
+static const unsigned char compare_buf1[] = { 0xA1, 0, 0, 0, 0, 0, 0, 0 } ;
     
 int main(void) {
     int ret=0;
         
-    TEST_CASE(0, 0, 0, 0, 0, CO_ERROR_NULL_PTR, 0)
-    TEST_CASE(can_buff, 0, 0, fill_data, 8, CO_ERROR_BAD_ARGS, 0)
-    TEST_CASE(can_buff, 0, 1, fill_data, 8, CO_ERROR_DATA_OVERFLOW, 0)
-    TEST_CASE(can_buff, 1, 1, fill_data, 8, CO_ERROR_DATA_OVERFLOW, 0)
-    TEST_CASE(can_buff, 0, 0, fill_data, 7, CO_ERROR_BAD_ARGS, 0)
-    TEST_CASE(can_buff, 0, 200, fill_data, 7, CO_ERROR_DATA_OVERFLOW, 0)
-    TEST_CASE(can_buff, 1, 0, 0, 0, CO_ERROR_BAD_ARGS, 0)
-    TEST_CASE(can_buff, 1, 235, 0, 0, CO_ERROR_DATA_OVERFLOW, 0)
-    TEST_CASE(can_buff, 0, 12, fill_data, 0, CO_ERROR_BAD_ARGS, 0)
-    TEST_CASE(can_buff, 1, 119, fill_data, 15, CO_ERROR_DATA_OVERFLOW, 0)
-    TEST_CASE(can_buff, 1, 12, fill_data, 15, CO_ERROR_DATA_OVERFLOW, 0)
-    TEST_CASE(can_buff, 0, 0x5F, fill_data, 7, CO_ERROR_NONE, compare_buf1)
-    TEST_CASE(can_buff, 0, 0x7E, fill_data+3, 5, CO_ERROR_NONE, compare_buf2)
-    TEST_CASE(can_buff, 1, 0x12, fill_data+7, 3, CO_ERROR_NONE, compare_buf3)
+    TEST_CASE(0, CO_ERROR_NULL_PTR, 0)
+    TEST_CASE(can_buff, CO_ERROR_NONE, compare_buf1)
     
     return 0;
 }

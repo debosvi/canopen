@@ -15,10 +15,7 @@ int CO_SDO_build_blk_dl_seg_rp(unsigned char* const buf,
     CO_RESET_WHOLE_BUFFER(buf);
     
     // set command type
-    buf[0] = CO_SDO_CMD_CCS_BDL_RP;
-    
-    // set response type
-    buf[0] |= CO_SDO_CMD_BLK_ACK_MASK;
+    buf[0] = CO_SDO_CMD_SCS_BDL_RP;
     
     // set seq number
     buf[1] = seq;

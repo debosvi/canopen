@@ -7,6 +7,7 @@ int CO_SDO_build_blk_dl_seg_rq(unsigned char* const buf, const bool more,
     
     if(!buf) return CO_ERROR_NULL_PTR;
     if(!seq) return CO_ERROR_BAD_ARGS;
+    if(lg>CO_SDO_CMD_BLK_SEG_MAXC_SIZE) return CO_ERROR_DATA_OVERFLOW;
     if(seq>CO_CAN_MAX_BLK_SIZE) return CO_ERROR_DATA_OVERFLOW;
     if(data && !lg) return CO_ERROR_BAD_ARGS;
     if(!data && lg) return CO_ERROR_NULL_PTR;
