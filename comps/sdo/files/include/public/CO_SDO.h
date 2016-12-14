@@ -8,7 +8,7 @@ typedef uint16_t OD_index_t;
 typedef uint8_t OD_subindex_t;
 
 /** CAN data max length. */
-#define CO_CAN_DATA_MAX     (8)
+#define CO_CAN_FRAME_DATA_MAX   (8)
 
 typedef enum {
     CO_SDO_ABRT_NONE                  = 0x00000000UL, /**< 0x00000000, No abort */

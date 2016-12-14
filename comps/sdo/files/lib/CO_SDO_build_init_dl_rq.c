@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 int CO_SDO_build_init_dl_rq(unsigned char *const buf, 
         const bool e, const bool s, 
-        const OD_index_t idx, const OD_subindex_t subidx, const uint32_t lg) {
+        const OD_index_t idx, const OD_subindex_t subidx, const CO_SDO_data_size_t lg) {
     
     int ret=CO_ERROR_NONE;
     
@@ -26,9 +26,9 @@ int CO_SDO_build_init_dl_rq(unsigned char *const buf,
 
     // set size presence
     if(s) 
-        buf[0] |= CO_SDO_CMD_SZ_INDIC_MASK;
+        buf[0] |= CO_SDO_CMD_SEG_SZ_IND_MASK;
     else 
-        buf[0] &= ~CO_SDO_CMD_SZ_INDIC_MASK;
+        buf[0] &= ~CO_SDO_CMD_SEG_SZ_IND_MASK;
     
     // fill indexes
     if(CO_index_fill(&buf[1], idx, subidx)) {

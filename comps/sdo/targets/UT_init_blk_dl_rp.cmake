@@ -5,7 +5,7 @@ set(COMP_SRC_PROFILE "test")
 
 ## COMP_SRC_TEST_NAME var must be set to binary name (it will be automatically prefixed with 'test_' in order to identify easly appart from oyhre binaries).
 ## mandatory
-set(COMP_SRC_TEST_NAME "sdo_build_abort_trft")
+set(COMP_SRC_TEST_NAME "sdo_build_init_blk_dl_rp")
 
 ## LOCAL_SRC_DIR_SUFFIX is the relative path prefix to append to component files directory in order to find source files to compile.
 ## optional but recommended
@@ -13,7 +13,7 @@ set(LOCAL_SRC_DIR_SUFFIX test)
 
 ## LOCAL_SRC_FILES is the list of files to compile (do not use any absolute path, automatic appending is performed by complte makefiles scheme.
 ## mandatory
-set(LOCAL_SRC_FILES build_abort_trft.c)
+set(LOCAL_SRC_FILES build_init_blk_dl_rp.c)
 
 ## LOCAL_SRC_FILES_ADDED is the list of files to compile with absolute path (useful if generated files are somewhere).
 ## optional

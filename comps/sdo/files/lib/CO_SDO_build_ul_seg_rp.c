@@ -5,13 +5,13 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 int CO_SDO_build_ul_seg_rp(unsigned char *const buf, const bool last, const bool toggle,
-        const unsigned char* const data, const uint8_t lg) {
+        const unsigned char* const data, const CO_SDO_seg_size_t size) {
     
     
     if(!buf) return CO_ERROR_NULL_PTR;
-    if(lg>MAX_SEGMENT_DATA) return CO_ERROR_DATA_OVERFLOW;
-    if(!data && lg) return CO_ERROR_BAD_ARGS;
-    if(data && !lg) return CO_ERROR_BAD_ARGS;
+    if(size>MAX_SEGMENT_DATA) return CO_ERROR_DATA_OVERFLOW;
+    if(!data && size) return CO_ERROR_BAD_ARGS;
+    if(data && !size) return CO_ERROR_BAD_ARGS;
     
     // reset whole buffer 
     CO_RESET_WHOLE_BUFFER(buf);
@@ -34,14 +34,14 @@ int CO_SDO_build_ul_seg_rp(unsigned char *const buf, const bool last, const bool
     // update unused bytes in buffer
     {
         uint8_t n=0;
-        n=MAX_SEGMENT_DATA-lg;
+        n=MAX_SEGMENT_DATA-size;
         n=(n<<1);
         buf[0] |= n;
     }
     
     // copy amout of data if so
-    if(data && lg)
-        memcpy(&buf[1], data, lg);
+    if(data && size)
+        memcpy(&buf[1], data, size);
     
     return CO_ERROR_NONE;
 }

@@ -3,8 +3,8 @@
 #include <private/CO_SDO_p.h>
 
 static unsigned char can_buff[CO_CAN_FRAME_DATA_MAX];
-static OD_index_t idx=0x1605;
-static OD_subindex_t subidx=7;
+static OD_index_t idx=0x6504;
+static OD_subindex_t subidx=12;
 
 static int compare_buffers(unsigned char* b1, unsigned char* b2) {
     int ret=0;
@@ -30,11 +30,11 @@ static void print_buffer(unsigned char* buf) {
     fprintf(stderr, "\n");
 }
 
-#define TEST_CASE(buf,idx,subidx,exp,comp)              \
-    ret=CO_SDO_build_init_dl_rp(buf,idx,subidx); \
+#define TEST_CASE(buf,crc,s,idx,subidx,size,exp,comp)            \
+    ret=CO_SDO_build_init_blk_dl_rq(buf,crc,s,idx,subidx,size); \
     if(ret!=exp) {                                      \
         fprintf(stderr,                                 \
-            "%d: CO_SDO_build_init_dl_rp failed, error(%d), expected(%d)\n",    \
+            "%d: CO_SDO_build_init_dl_rq failed, error(%d), expected(%d)\n",    \
             __LINE__, ret, exp);                        \
         return 1;                                       \
     }                                                   \
@@ -52,16 +52,31 @@ static void print_buffer(unsigned char* buf) {
         else {                                          \
             fprintf(stderr, "%d: test OK\n", __LINE__); \
         }                                               \
-    }                                                     
+    }                                                  
+    
 
-static const unsigned char compare_buf1[] = { 0x60, 0x05, 0x16, 0x07, 0x00, 0x00, 0x00, 0x00 } ;
-
+static const unsigned char compare_buf1[] = { 0xC2, 0x04, 0x65, 0x0c, 0x34, 0x12, 0x00, 0x00 } ;
+static const unsigned char compare_buf2[] = { 0xC2, 0x04, 0x65, 0x0c, 0x12, 0x00, 0x00, 0x00 } ;
+static const unsigned char compare_buf3[] = { 0xC2, 0x04, 0x65, 0x0c, 0x45, 0x23, 0x01, 0x00 } ;
+static const unsigned char compare_buf4[] = { 0xC2, 0x04, 0x65, 0x0c, 0x56, 0x34, 0x12, 0x00 } ;
+static const unsigned char compare_buf5[] = { 0xC2, 0x04, 0x65, 0x0c, 0x67, 0x45, 0x23, 0x01 } ;
+static const unsigned char compare_buf6[] = { 0xC4, 0x04, 0x65, 0x0c, 0x00, 0x00, 0x00, 0x00 } ;
+static const unsigned char compare_buf7[] = { 0xC6, 0x04, 0x65, 0x0c, 0x01, 0x00, 0x00, 0x00 } ;
     
 int main(void) {
     int ret=0;
         
-    TEST_CASE(0, 0, 0, CO_ERROR_NULL_PTR, 0)
-    TEST_CASE(can_buff, idx, subidx, CO_ERROR_NONE, compare_buf1)
+    TEST_CASE(0, 0, 0, 0, 0, 0, CO_ERROR_NULL_PTR, 0)
+    TEST_CASE(can_buff, 0, 1, idx, subidx, 0, CO_ERROR_BAD_ARGS, 0)
+    TEST_CASE(can_buff, 0, 0, idx, subidx, 1024, CO_ERROR_BAD_ARGS, 0)
+    TEST_CASE(can_buff, 0, 1, idx, subidx, 0x1234, CO_ERROR_NONE, compare_buf1)
+    TEST_CASE(can_buff, 0, 1, idx, subidx, 0x12, CO_ERROR_NONE, compare_buf2)
+    TEST_CASE(can_buff, 0, 1, idx, subidx, 0x12345, CO_ERROR_NONE, compare_buf3)
+    TEST_CASE(can_buff, 0, 1, idx, subidx, 0x123456, CO_ERROR_NONE, compare_buf4)
+    TEST_CASE(can_buff, 0, 1, idx, subidx, 0x1234567, CO_ERROR_NONE, compare_buf5)
+    TEST_CASE(can_buff, 1, 0, idx, subidx, 0x123, CO_ERROR_BAD_ARGS, 0)
+    TEST_CASE(can_buff, 1, 0, idx, subidx, 0, CO_ERROR_NONE, compare_buf6)
+    TEST_CASE(can_buff, 1, 1, idx, subidx, 0x01, CO_ERROR_NONE, compare_buf7)
     
     return 0;
 }
