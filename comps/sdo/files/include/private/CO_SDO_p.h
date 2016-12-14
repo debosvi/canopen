@@ -7,6 +7,7 @@
 
 // use ntohs and htons functions
 #ifndef WIN32
+    #include <string.h>
     #include <netinet/in.h>
 #else
     #include <winsock2.h>
@@ -17,14 +18,20 @@
 /** Macro to erase whole CAN buffer */
 #define CO_RESET_WHOLE_BUFFER(x)    memset(x, 0, CO_CAN_DATA_MAX)
 
-/** Size Indicator command mask. */
-#define CO_SDO_CMD_SZ_INDIC_MASK    (0x01<<0)
+/** Size Indicator command mask (segments). */
+#define CO_SDO_CMD_SEG_SZ_IND_MASK  (0x01<<0)
+
+/** Size Indicator command mask (blocks). */
+#define CO_SDO_CMD_BLK_SZ_IND_MASK  (0x01<<1)
  
 /** Transfert Type command mask. */
 #define CO_SDO_CMD_TRANSFERT_MASK   (0x01<<1)
  
 /** Last Segment command mask. */
 #define CO_SDO_CMD_LAST_SEG_MASK    (0x01<<0)
+
+/** Last Segment command mask. */
+#define CO_SDO_CMD_BLK_CRC_MASK     (0x01<<2)
  
 /** Last Segment command mask. */
 #define CO_SDO_CMD_TOGGLE_MASK      (0x01<<4)
@@ -112,5 +119,14 @@ extern int CO_SDO_build_abort_transfert(unsigned char* const buf,
     const OD_index_t idx, const OD_subindex_t subidx, 
     const uint32_t code);
 
+/** Build a can frame buffer with command request 'Initiate SDO Block Download'. */
+extern int CO_SDO_build_init_blk_dl_rq(unsigned char* const buf, 
+    const bool crc, const bool s, 
+    const OD_index_t idx, const OD_subindex_t subidx, const uint32_t size);
+
+/** Build a can frame buffer with command request 'Initiate SDO Block Download'. */
+extern int CO_SDO_build_init_blk_dl_rp(unsigned char* const buf, const bool crc, 
+    const OD_index_t idx, const OD_subindex_t subidx, const uint8_t blk_sz);
+    
 #endif // __CO_SDO_PRIVATE_H__
 

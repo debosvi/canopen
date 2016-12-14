@@ -5,7 +5,7 @@ set(COMP_SRC_PROFILE "test")
 
 ## COMP_SRC_TEST_NAME var must be set to binary name (it will be automatically prefixed with 'test_' in order to identify easly appart from oyhre binaries).
 ## mandatory
-set(COMP_SRC_TEST_NAME "sdo_abort_trft")
+set(COMP_SRC_TEST_NAME "sdo_build_abort_trft")
 
 ## LOCAL_SRC_DIR_SUFFIX is the relative path prefix to append to component files directory in order to find source files to compile.
 ## optional but recommended
