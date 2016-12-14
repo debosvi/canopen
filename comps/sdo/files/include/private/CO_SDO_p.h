@@ -200,7 +200,18 @@ extern int CO_SDO_build_init_blk_ul_rp(unsigned char* const buf, const bool crc,
 
 /** Build a can frame buffer with command request 'Start SDO Block Upload'. */
 extern int CO_SDO_build_start_blk_ul_rq(unsigned char* const buf);
-        
+
+/** Build a can frame buffer with command request 'SDO Upload Block Segment'. */
+#define CO_SDO_build_blk_ul_seg_rq CO_SDO_build_blk_dl_seg_rq
+ 
+/** Build a can frame buffer with command response 'SDO Upload Block Segment'. */
+#define CO_SDO_build_blk_ul_seg_rp CO_SDO_build_blk_dl_seg_rp 
+
+/** Build a can frame buffer with command request 'SDO Upload Block End'. */
+#define CO_SDO_build_blk_ul_end_rq CO_SDO_build_blk_dl_end_rq
+ 
+/** Build a can frame buffer with command response 'SDO Upload Block End'. */
+#define CO_SDO_build_blk_ul_end_rp CO_SDO_build_blk_dl_end_rp 
     
 #endif // __CO_SDO_PRIVATE_H__
 
