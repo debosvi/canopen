@@ -16,7 +16,7 @@
 #include <canopen/sdo/CO_SDO.h>
 
 /** Macro to erase whole CAN buffer */
-#define CO_RESET_WHOLE_BUFFER(x)    memset(x, 0, CO_CAN_DATA_MAX)
+#define CO_RESET_WHOLE_BUFFER(x)    memset(x, 0, CO_CAN_FRAME_DATA_MAX)
 
 /** Size Indicator command mask (segments). */
 #define CO_SDO_CMD_SEG_SZ_IND_MASK  (0x01<<0)
@@ -34,7 +34,13 @@
 #define CO_SDO_CMD_BLK_CRC_MASK     (0x01<<2)
  
 /** Last Segment command mask. */
-#define CO_SDO_CMD_TOGGLE_MASK      (0x01<<4)
+#define CO_SDO_CMD_TOGGLE_MASK      (0x01<<4) 
+
+/** Last Segment command mask. */
+#define CO_SDO_CMD_BLK_MORE_MASK    (0x80)
+
+/** Last Segment command mask. */
+#define CO_SDO_CMD_BLK_ACK_MASK     (0x02)
 
 /** Initiate Download command request from client. */
 #define CO_SDO_CMD_CCS_INIT_DL_RQ   (0x01<<5)
@@ -64,11 +70,14 @@
 #define CO_SDO_CMD_CS_ABORT         (0x04<<5)
 
 /** Initiate Block Download command request from client. */
-#define CO_SDO_CMD_CCS_INIT_BDL_RQ   (0x06<<5)
+#define CO_SDO_CMD_CCS_INIT_BDL_RQ  (0x06<<5)
  
 /** Initiate Block Download command response from server. */
-#define CO_SDO_CMD_SCS_INIT_BDL_RP   (0x05<<5)
+#define CO_SDO_CMD_SCS_INIT_BDL_RP  (0x05<<5)
 
+/** Initiate Block Download command request from client. */
+#define CO_SDO_CMD_CCS_BDL_RP       (0x05<<5)
+ 
 /** Fill buffer (at index 0) with Object Directory index and subindex. */
 extern int CO_index_fill(unsigned char* const data, 
     const OD_index_t idx, const OD_subindex_t subidx);
@@ -124,9 +133,17 @@ extern int CO_SDO_build_init_blk_dl_rq(unsigned char* const buf,
     const bool crc, const bool s, 
     const OD_index_t idx, const OD_subindex_t subidx, const uint32_t size);
 
-/** Build a can frame buffer with command request 'Initiate SDO Block Download'. */
+/** Build a can frame buffer with command response 'Initiate SDO Block Download'. */
 extern int CO_SDO_build_init_blk_dl_rp(unsigned char* const buf, const bool crc, 
     const OD_index_t idx, const OD_subindex_t subidx, const uint8_t blk_sz);
+
+/** Build a can frame buffer with command request 'SDO Download Block Segment'. */
+extern int CO_SDO_build_blk_dl_seg_rq(unsigned char* const buf, const bool more,
+    const uint8_t seq, const unsigned char* const data, const uint8_t lg);
+
+/** Build a can frame buffer with command response 'SDO Download Block Segment'. */
+extern int CO_SDO_build_blk_dl_seg_rp(unsigned char* const buf, 
+    const uint8_t seq, const uint8_t blk_sz);
     
 #endif // __CO_SDO_PRIVATE_H__
 

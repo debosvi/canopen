@@ -2,15 +2,15 @@
 #include <stdio.h>
 #include <private/CO_SDO_p.h>
 
-static unsigned char can_buff[CO_CAN_DATA_MAX];
+static unsigned char can_buff[CO_CAN_FRAME_DATA_MAX];
 static OD_index_t idx=0x1A03;
 static OD_subindex_t subidx=13;
 
 static int compare_buffers(unsigned char* b1, unsigned char* b2) {
     int ret=0;
 
-    if(!b1 || !b2) return CO_CAN_DATA_MAX;
-    for(int i=0; i<CO_CAN_DATA_MAX; i++) {
+    if(!b1 || !b2) return CO_CAN_FRAME_DATA_MAX;
+    for(int i=0; i<CO_CAN_FRAME_DATA_MAX; i++) {
         if(b1[i]!=b2[i]) {
             fprintf(stderr, " ^ ");
             ret++;
@@ -25,7 +25,7 @@ static int compare_buffers(unsigned char* b1, unsigned char* b2) {
 
 static void print_buffer(unsigned char* buf) {
     if(!buf) return;
-    for(int i=0; i<CO_CAN_DATA_MAX; i++)
+    for(int i=0; i<CO_CAN_FRAME_DATA_MAX; i++)
         fprintf(stderr, "%02x ", buf[i]);
     fprintf(stderr, "\n");
 }
